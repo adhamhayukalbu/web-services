@@ -1,0 +1,33 @@
+<?xml version="1.0"/>
+<mahasiswas>
+  <mahasiswa>
+    <nim>001</nim>
+    <nama>Adham Hayukalbu</nama>
+    <alamat>Semarang</alamat>
+    <progdi>Teknik Informatika</progdi>
+  </mahasiswa>
+  <mahasiswa>
+    <nim>002</nim>
+    <nama>Budi</nama>
+    <alamat>Semarang</alamat>
+    <progdi>Teknik Informatika</progdi>
+  </mahasiswa>
+  <mahasiswa>
+    <nim>003</nim>
+    <nama>Antoine</nama>
+    <alamat>Ungaran</alamat>
+    <progdi>Teknik Informatika</progdi>
+  </mahasiswa>
+  <mahasiswa>
+    <nim>004</nim>
+    <nama>Dharma Saputro</nama>
+    <alamat>Semarang</alamat>
+    <progdi>Teknik Informatika</progdi>
+  </mahasiswa>
+  <mahasiswa>
+    <nim>005</nim>
+    <nama>Angga Faizul</nama>
+    <alamat>Semarang</alamat>
+    <progdi>Teknik Informatika</progdi>
+  </mahasiswa>
+</mahasiswas>
