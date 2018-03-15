@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<mahasiswas>
+  <mahasiswa>
+    <nim>17.01.63.0005</nim>
+    <nama>Adham Hayukalbu</nama>
+    <alamat>Semarang</alamat>
+    <progdi>S1-TI</progdi>
+  </mahasiswa>
+  <mahasiswa>
+    <nim>17.01.63.0001</nim>
+    <nama>Budi</nama>
+    <alamat>Semarang</alamat>
+    <progdi>S1-TI</progdi>
+  </mahasiswa>
+  <mahasiswa>
+    <nim>17.01.63.0002</nim>
+    <nama>Antoine</nama>
+    <alamat>Ungaran</alamat>
+    <progdi>S1-TI</progdi>
+  </mahasiswa>
+  <mahasiswa>
+    <nim>17.01.63.0004</nim>
+    <nama>Dharma Saputro</nama>
+    <alamat>Semarang</alamat>
+    <progdi>S2-TI</progdi>
+  </mahasiswa>
+  <mahasiswa>
+    <nim>17.01.63.0007</nim>
+    <nama>Angga Faizul Ikrom</nama>
+    <alamat>Semarang</alamat>
+    <progdi>S1-TI</progdi>
+  </mahasiswa>
+</mahasiswas>
