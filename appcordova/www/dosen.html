@@ -15,8 +15,134 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
   <!-- CSS Files -->
   <link href="assets/css/material-dashboard.css?v=2.1.0" rel="stylesheet" />
-  <!-- CSS Just for demo purpose, don't include it in your project -->
-  <!-- <link href="assets/demo/demo.css" rel="stylesheet" /> -->
+  <!--   Core JS Files   -->
+  <script src="assets/js/core/jquery.min.js" type="text/javascript"></script>
+  <script src="assets/js/core/geturi.js" type="text/javascript"></script>
+  <script src="assets/js/core/popper.min.js" type="text/javascript"></script>
+  <script src="assets/js/core/bootstrap-material-design.min.js" type="text/javascript"></script>
+  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="assets/js/material-dashboard.min.js?v=2.1.0" type="text/javascript"></script>
+  <script>
+    $(document).ready(function() {
+      var nid = (typeof getUrlVars()["nid"] === 'undefined') ? false: decodeURI(getUrlVars()["nid"]);
+      var nama = (typeof getUrlVars()["nama"] === 'undefined') ? false: decodeURI(getUrlVars()["nama"]);
+      var jurusan_id = (typeof getUrlVars()["jurusan_id"] === 'undefined') ? false: decodeURI(getUrlVars()["jurusan_id"]);
+
+      if(!nid){
+        $('#insert').show();
+        $('#update').hide();
+        $('#delete').hide();
+      }else{
+        $("#nid").val(nid);
+        $("#nama").val(nama);
+        $("#jurusan_id").val(jurusan_id);
+        $('#insert').hide();
+        $('#update').show();
+        $('#delete').show();
+      }
+
+      var url_res_jurusan = "http://localhost/web-services/php-code/controllers/jurusan_controller.php?action=read";
+      $.getJSON(url_res_jurusan, function(result) {
+          console.log(result);
+          $.each(result, function(i, field) {
+              var id = field.id;
+              var nama = field.nama;
+              var innerhtml = '<option value='+ id +'>' + nama + '</option>';
+              $("#jurusan_id").append(innerhtml);
+          });
+      });
+
+      $("#insert").click(function() {
+        var nid = $("#nid").val();
+        var nama = $("#nama").val();
+        var jurusan_id = $("#jurusan_id").val();
+        var alamat = "";
+        var dataString = "nid=" + nid + "&nama=" + nama + "&jurusan_id=" + jurusan_id + "&alamat=" + alamat + "&insert=";
+        if ($.trim(nid).length > 0 & $.trim(nama).length > 0 & $.trim(jurusan_id).length > 0) {
+          console.log(dataString);
+          $.ajax({
+              type: "POST",
+              url: "http://localhost/web-services/php-code/controllers/dosen_controller.php",
+              data: dataString,
+              crossDomain: true,
+              cache: false,
+              beforeSend: function() {
+                  $("#insert").val('Connecting...');
+              },
+              success: function(data) {
+                  if (data == "success") {
+                      alert("Record is successfully created");
+                      $("#insert").val('Submit');
+                      $("#dosen_form_view").find("input[type=text]").val("");
+                  } else if (data == "error") {
+                      $("#insert").val('Submit');
+                      alert("Error!");
+                  }
+              }
+          });
+        }
+        return false;
+      });
+
+      $("#update").click(function() {
+        var nid = $("#nid").val();
+        var nama = $("#nama").val();
+        var jurusan_id = $("#jurusan_id").val();
+        var dataString = "nid=" + nid + "&nama=" + nama + "&jurusan_id=" + jurusan_id + "&update=";
+        if ($.trim(nid).length > 0 & $.trim(nama).length > 0 & $.trim(jurusan_id).length > 0) {
+          $.ajax({
+              type: "POST",
+              url: "http://localhost/web-services/php-code/controllers/dosen_controller.php",
+              data: dataString,
+              crossDomain: true,
+              cache: false,
+              beforeSend: function() {
+                  $("#update").val('Connecting...');
+              },
+              success: function(data) {
+                  if (data == "success") {
+                      alert("Record has been updated");
+                      $("#update").val('Update');
+                      $("#dosen_form_view").find("input[type=text]").val("");
+                  } else if (data == "error") {
+                      $("#update").val('Update');
+                      alert("Error!");
+                  }
+              }
+          });
+        }
+        return false;
+      });
+
+      $("#delete").click(function() {
+        var nid = $("#nid").val();
+        var dataString = "&nid=" + nid;
+        if ($.trim(nid).length > 0) {
+          $.ajax({
+              type: "GET",
+              url: "http://localhost/web-services/php-code/controllers/dosen_controller.php?action=delete",
+              data: dataString,
+              crossDomain: true,
+              cache: false,
+              beforeSend: function() {
+                  $("#delete").val('Connecting...');
+              },
+              success: function(data) {
+                  if (data == "success") {
+                      alert("Record has been deleted");
+                      $("#delete").val('Delete');
+                      $("#dosen_form_view").find("input[type=text]").val("");
+                  } else if (data == "error") {
+                      $("#delete").val('Delete');
+                      alert("Error!");
+                  }
+              }
+          });
+        }
+        return false;
+      });
+    });
+  </script>
 </head>
 
 <body class="">
@@ -101,30 +227,34 @@
                     <h4 class="card-title">Dosen</h4>
                 </div>
                 <div class="card-body">
-                    <form>
+                    <form id="dosen_form_view">
                         <div class="row">
                             <div class="col-md-3">
                             <div class="form-group">
                                 <label class="bmd-label-floating">NIDN</label>
-                                <input type="text" class="form-control" disabled>
+                                <input id="nid" type="text" class="form-control" required>
                             </div>
                             </div>
                             <div class="col-md-9">
                             <div class="form-group">
                                 <label class="bmd-label-floating">Nama Lengkap</label>
-                                <input type="text" class="form-control">
+                                <input id="nama" type="text" class="form-control">
                             </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                            <div class="form-group">
-                                <label class="bmd-label-floating">Jurusan</label>
-                                <input type="text" class="form-control">
+                              <div class="form-group">
+                                  <label class="bmd-label-floating">Jurusan</label>
+                                  <select class="form-control" id="jurusan_id">
+                                    <option selected>Choose...</option>
+                                  </select>
+                              </div>
                             </div>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-info pull-right">Save</button>
+                          </div>
+                        <input id="insert" type="button" class="btn btn-info pull-right" value="Submit"/>
+                        <input id="delete" type="button" class="btn btn-danger pull-right" value="Delete"/>
+                        <input id="update" type="button" class="btn btn-info pull-right" value="Update"/>  
                         <div class="clearfix"></div>
                     </form>
                 </div>
@@ -159,27 +289,9 @@
               </li>
             </ul>
           </nav>
-          <!-- <div class="copyright float-right">
-            &copy;
-            <script>
-              document.write(new Date().getFullYear())
-            </script>
-          </div> -->
         </div>
       </footer>
     </div>
   </div>
-  <!--   Core JS Files   -->
-  <script src="assets/js/core/jquery.min.js" type="text/javascript"></script>
-  <script src="assets/js/core/popper.min.js" type="text/javascript"></script>
-  <script src="assets/js/core/bootstrap-material-design.min.js" type="text/javascript"></script>
-  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="assets/js/material-dashboard.min.js?v=2.1.0" type="text/javascript"></script>
-  <!-- <script>
-    $(document).ready(function() {
-
-    });
-  </script> -->
 </body>
-
 </html>

@@ -17,12 +17,41 @@
   <link href="assets/css/material-dashboard.css?v=2.1.0" rel="stylesheet" />
   <!--   Core JS Files   -->
   <script src="assets/js/core/jquery.min.js" type="text/javascript"></script>
+  <script src="assets/js/core/geturi.js" type="text/javascript"></script>
   <script src="assets/js/core/popper.min.js" type="text/javascript"></script>
   <script src="assets/js/core/bootstrap-material-design.min.js" type="text/javascript"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="assets/js/material-dashboard.min.js?v=2.1.0" type="text/javascript"></script>
   <script>
     $(document).ready(function() {
+      var nim = (typeof getUrlVars()["nim"] === 'undefined') ? false: decodeURI(getUrlVars()["nim"]);
+      var nama = (typeof getUrlVars()["nama"] === 'undefined') ? false: decodeURI(getUrlVars()["nama"]);
+      var jurusan_id = (typeof getUrlVars()["jurusan_id"] === 'undefined') ? false: decodeURI(getUrlVars()["jurusan_id"]);
+
+      if(!nim){
+        $('#insert').show();
+        $('#update').hide();
+        $('#delete').hide();
+      }else{
+        $("#nim").val(nim);
+        $("#nama").val(nama);
+        $("#jurusan_id").val(jurusan_id);
+        $('#insert').hide();
+        $('#update').show();
+        $('#delete').show();
+      }
+
+      var url_res_jurusan = "http://localhost/web-services/php-code/controllers/jurusan_controller.php?action=read";
+      $.getJSON(url_res_jurusan, function(result) {
+          console.log(result);
+          $.each(result, function(i, field) {
+              var id = field.id;
+              var nama = field.nama;
+              var innerhtml = '<option value='+ id +'>' + nama + '</option>';
+              $("#jurusan_id").append(innerhtml);
+          });
+      });
+
       $("#insert").click(function() {
         var nim = $("#nim").val();
         var nama = $("#nama").val();
@@ -30,26 +59,84 @@
         var alamat = "";
         var dataString = "nim=" + nim + "&nama=" + nama + "&jurusan_id=" + jurusan_id + "&alamat=" + alamat + "&insert=";
         if ($.trim(nim).length > 0 & $.trim(nama).length > 0 & $.trim(jurusan_id).length > 0) {
-            $.ajax({
-                type: "POST",
-                url: "http://172.16.4.245/web-services/php-code/controllers/mahasiswa_controller.php",
-                data: dataString,
-                crossDomain: true,
-                cache: false,
-                beforeSend: function() {
-                    $("#insert").val('Connecting...');
-                },
-                success: function(data) {
-                    if (data == "success") {
-                        alert("Record is successfully created");
-                        $("#insert").val('Submit');
-                        $("#mahasiswa_form_view").find("input[type=text]").val("");
-                    } else if (data == "error") {
-                        $("#insert").val('Submit');
-                        alert("Error!");
-                    }
-                }
-            });
+          $.ajax({
+              type: "POST",
+              url: "http://localhost/web-services/php-code/controllers/mahasiswa_controller.php",
+              data: dataString,
+              crossDomain: true,
+              cache: false,
+              beforeSend: function() {
+                  $("#insert").val('Connecting...');
+              },
+              success: function(data) {
+                  if (data == "success") {
+                      alert("Record is successfully created");
+                      $("#insert").val('Submit');
+                      $("#mahasiswa_form_view").find("input[type=text]").val("");
+                  } else if (data == "error") {
+                      $("#insert").val('Submit');
+                      alert("Error!");
+                  }
+              }
+          });
+        }
+        return false;
+      });
+
+      $("#update").click(function() {
+        var nim = $("#nim").val();
+        var nama = $("#nama").val();
+        var jurusan_id = $("#jurusan_id").val();
+        var dataString = "nim=" + nim + "&nama=" + nama + "&jurusan_id=" + jurusan_id + "&update=";
+        if ($.trim(nim).length > 0 & $.trim(nama).length > 0 & $.trim(jurusan_id).length > 0) {
+          $.ajax({
+              type: "POST",
+              url: "http://localhost/web-services/php-code/controllers/mahasiswa_controller.php",
+              data: dataString,
+              crossDomain: true,
+              cache: false,
+              beforeSend: function() {
+                  $("#update").val('Connecting...');
+              },
+              success: function(data) {
+                  if (data == "success") {
+                      alert("Record has been updated");
+                      $("#update").val('Update');
+                      $("#mahasiswa_form_view").find("input[type=text]").val("");
+                  } else if (data == "error") {
+                      $("#update").val('Update');
+                      alert("Error!");
+                  }
+              }
+          });
+        }
+        return false;
+      });
+
+      $("#delete").click(function() {
+        var nim = $("#nim").val();
+        var dataString = "&nim=" + nim;
+        if ($.trim(nim).length > 0) {
+          $.ajax({
+              type: "GET",
+              url: "http://localhost/web-services/php-code/controllers/mahasiswa_controller.php?action=delete",
+              data: dataString,
+              crossDomain: true,
+              cache: false,
+              beforeSend: function() {
+                  $("#delete").val('Connecting...');
+              },
+              success: function(data) {
+                  if (data == "success") {
+                      alert("Record has been deleted");
+                      $("#delete").val('Delete');
+                      $("#mahasiswa_form_view").find("input[type=text]").val("");
+                  } else if (data == "error") {
+                      $("#delete").val('Delete');
+                      alert("Error!");
+                  }
+              }
+          });
         }
         return false;
       });
@@ -155,14 +242,18 @@
                           </div>
                       </div>
                       <div class="row">
-                          <div class="col-md-12">
+                        <div class="col-md-12">
                           <div class="form-group">
                               <label class="bmd-label-floating">Jurusan</label>
-                              <input id="jurusan_id" type="text" class="form-control">
+                              <select class="form-control" id="jurusan_id">
+                                <option selected>Choose...</option>
+                              </select>
                           </div>
-                          </div>
+                        </div>
                       </div>
                       <input id="insert" type="button" class="btn btn-info pull-right" value="Submit"/>
+                      <input id="delete" type="button" class="btn btn-danger pull-right" value="Delete"/>
+                      <input id="update" type="button" class="btn btn-info pull-right" value="Update"/>
                       <div class="clearfix"></div>
                     </form>
                 </div>
@@ -197,12 +288,6 @@
               </li>
             </ul>
           </nav>
-          <!-- <div class="copyright float-right">
-            &copy;
-            <script>
-              document.write(new Date().getFullYear())
-            </script>
-          </div> -->
         </div>
       </footer>
     </div>

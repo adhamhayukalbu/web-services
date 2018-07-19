@@ -25,6 +25,26 @@
                 $this->conn->close();
 				return $result;
 			}
-		}
+        }
+
+        public function update($nim, $nama, $jurusan_id){
+            $stmt = $this->conn->prepare("UPDATE res_mahasiswas SET nama=?, jurusan_id=? WHERE nim=?") or die($this->conn->error);
+            $stmt->bind_param("sss", $nama, $jurusan_id, $nim);
+			if($stmt->execute()){
+				$stmt->close();
+				$this->conn->close();
+				return true;
+            }
+        }
+
+        public function delete($nim){
+			$stmt = $this->conn->prepare("DELETE FROM res_mahasiswas WHERE nim=?") or die($this->conn->error);
+			$stmt->bind_param("s", $nim);
+			if($stmt->execute()){
+				$stmt->close();
+				$this->conn->close();
+				return true;
+            }
+        }
     } 
 ?>

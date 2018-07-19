@@ -1,10 +1,10 @@
 <?php
-    require_once $_SERVER['DOCUMENT_ROOT'] . '/web-services/php-code/models/res_dosen.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/web-services/php-code/models/res_jurusan.php';
     // Action of _GET Queries
     if(ISSET($_GET['action'])){
         $action = $_GET['action'];
         if($action == 'read'){
-            $object = new ResDosen();
+            $object = new ResJurusan();
             $read = $object->read();
             $table = array();
             while($row = $read->fetch_assoc()){
@@ -12,9 +12,9 @@
             }
             echo json_encode($table);
         } else if($action == 'delete'){
-            $nid = $_GET['nid'];
-            $object = new ResDosen();
-            $result = $object->delete($nid);
+            $id = $_GET['id'];
+            $object = new ResJurusan();
+            $result = $object->delete($id);
             if($result){
                 echo "success";
             }else{
@@ -25,12 +25,10 @@
 
     // Action of _POST Queries
     if(ISSET($_POST['insert'])){
-        $nid = $_POST['nid'];
+        $id = $_POST['id'];
         $nama = $_POST['nama'];
-        $jurusan_id = $_POST['jurusan_id'];
-        $alamat = $_POST['alamat'];
-        $object = new ResDosen();
-        $result = $object->create($nid, $nama, $jurusan_id, $alamat);
+        $object = new ResJurusan();
+        $result = $object->create($id, $nama);
         if($result){
             echo "success";
         }else{
@@ -38,12 +36,11 @@
         }
     }
     if(ISSET($_POST['update'])){
-        $nid = $_POST['nid'];
+        $id = $_POST['id'];
         $nama = $_POST['nama'];
-        $jurusan_id = $_POST['jurusan_id'];
 
-        $object = new ResDosen();
-        $result = $object->update($nid, $nama, $jurusan_id);
+        $object = new ResJurusan();
+        $result = $object->update($id, $nama);
         if($result){
             echo "success";
         }else{
