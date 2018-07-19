@@ -1,4 +1,5 @@
-<?php 
+<?php
+    header("Access-Control-Allow-Origin: *");
 	class OpenAcademyConnection{	
 		public $host = 'localhost';
 		public $user = 'root';

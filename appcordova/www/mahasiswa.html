@@ -41,7 +41,7 @@
         $('#delete').show();
       }
 
-      var url_res_jurusan = "http://localhost/web-services/php-code/controllers/jurusan_controller.php?action=read";
+      var url_res_jurusan = "https://openacademy.000webhostapp.com/web-services/php-code/controllers/jurusan_controller.php?action=read";
       $.getJSON(url_res_jurusan, function(result) {
           console.log(result);
           $.each(result, function(i, field) {
@@ -61,7 +61,7 @@
         if ($.trim(nim).length > 0 & $.trim(nama).length > 0 & $.trim(jurusan_id).length > 0) {
           $.ajax({
               type: "POST",
-              url: "http://localhost/web-services/php-code/controllers/mahasiswa_controller.php",
+              url: "https://openacademy.000webhostapp.com/web-services/php-code/controllers/mahasiswa_controller.php",
               data: dataString,
               crossDomain: true,
               cache: false,
@@ -91,7 +91,7 @@
         if ($.trim(nim).length > 0 & $.trim(nama).length > 0 & $.trim(jurusan_id).length > 0) {
           $.ajax({
               type: "POST",
-              url: "http://localhost/web-services/php-code/controllers/mahasiswa_controller.php",
+              url: "https://openacademy.000webhostapp.com/web-services/php-code/controllers/mahasiswa_controller.php",
               data: dataString,
               crossDomain: true,
               cache: false,
@@ -119,7 +119,7 @@
         if ($.trim(nim).length > 0) {
           $.ajax({
               type: "GET",
-              url: "http://localhost/web-services/php-code/controllers/mahasiswa_controller.php?action=delete",
+              url: "https://openacademy.000webhostapp.com/web-services/php-code/controllers/mahasiswa_controller.php?action=delete",
               data: dataString,
               crossDomain: true,
               cache: false,

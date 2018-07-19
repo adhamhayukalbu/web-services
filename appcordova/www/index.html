@@ -22,7 +22,7 @@
   <script src="assets/js/material-dashboard.min.js" type="text/javascript"></script>
   <script type="text/javascript">
     $(document).ready(function() {
-      var url_mahasiswa = "http://localhost/web-services/php-code/controllers/mahasiswa_controller.php?action=read";
+      var url_mahasiswa = "https://openacademy.000webhostapp.com/web-services/php-code/controllers/mahasiswa_controller.php?action=read";
       $.getJSON(url_mahasiswa, function(result) {
           console.log(result);
           $.each(result, function(i, field) {
@@ -53,7 +53,7 @@
               $("#mhs_list_view").append(table_body_str);
           });
       });
-      var url_dosen = "http://localhost/web-services/php-code/controllers/dosen_controller.php?action=read";
+      var url_dosen = "https://openacademy.000webhostapp.com/web-services/php-code/controllers/dosen_controller.php?action=read";
       $.getJSON(url_dosen, function(result) {
           console.log(result);
           $.each(result, function(i, field) {
@@ -84,7 +84,7 @@
               $("#dsn_list_view").append(table_body_str);
           });
       });
-      var url_matakuliah = "http://localhost/web-services/php-code/controllers/matakuliah_controller.php?action=read";
+      var url_matakuliah = "https://openacademy.000webhostapp.com/web-services/php-code/controllers/matakuliah_controller.php?action=read";
       $.getJSON(url_matakuliah, function(result) {
           console.log(result);
           $.each(result, function(i, field) {
